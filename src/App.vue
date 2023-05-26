@@ -1,13 +1,15 @@
 <template>
     <table-comp />
+    <add-contact />
 </template>
 
 <script>
+import AddContact from "./components/modals/AddContact.vue";
 import TableComp from "./components/TableComp.vue";
 
 export default {
     name: "App",
-    components: { TableComp },
+    components: { TableComp, AddContact },
 };
 </script>
 

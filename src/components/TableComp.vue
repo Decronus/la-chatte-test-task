@@ -1,7 +1,11 @@
 <template>
     <div class="table-wrap">
-        <a-input-search placeholder="input search text" @search="setSearchQuery" />
-        <a-table :columns="columns" :data-source="filteredUsers" :pagination="false">
+        <div class="table-search-row">
+            <a-input-search placeholder="Поиск контакта" @search="setSearchQuery" />
+            <a-button type="primary" @click="$store.commit('openAddContact')">Добавить контакт</a-button>
+        </div>
+
+        <a-table :columns="columns" :data-source="filteredContacts" :pagination="false">
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'action'">
                     <a>Редактировать {{ record.name }}</a>
@@ -42,29 +46,6 @@ export default {
                     key: "action",
                 },
             ],
-            usersData: [
-                {
-                    key: "1",
-                    name: "John",
-                    surname: "Brown",
-                    phone: "+7 999 100 00 41",
-                    email: "johnbrown@mail.ru",
-                },
-                {
-                    key: "2",
-                    name: "Jim",
-                    surname: "Green",
-                    phone: "+7 912 121 55 06",
-                    email: "jimgreen@mail.ru",
-                },
-                {
-                    key: "3",
-                    name: "Joe",
-                    surname: "Black",
-                    phone: "+7 982 473 15 47",
-                    email: "joeblack@mail.ru",
-                },
-            ],
             searchQuery: "",
         };
     },
@@ -76,13 +57,14 @@ export default {
     },
 
     computed: {
-        filteredUsers() {
+        filteredContacts() {
+            const contacts = this.$store.state.contacts;
             const query = this.searchQuery ? this.searchQuery.toLowerCase() : this.searchQuery;
             if (!query) {
-                return this.usersData;
+                return contacts;
             } else {
-                return this.usersData.filter((user) => {
-                    const joinedName = `${user.name} ${user.surname}`.toLowerCase();
+                return contacts.filter((contact) => {
+                    const joinedName = `${contact.name} ${contact.surname}`.toLowerCase();
                     return joinedName.includes(query);
                 });
             }
@@ -96,5 +78,10 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.table-search-row {
+    display: flex;
+    gap: 10px;
 }
 </style>
