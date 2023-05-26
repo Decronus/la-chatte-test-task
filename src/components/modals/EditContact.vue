@@ -5,7 +5,7 @@
         title="Редактировать контакт"
         :destroyOnClose="true"
         @cancel="$store.commit('closeEditContact')"
-        @ok="$store.commit('editContact')"
+        @ok="$store.commit('editContact', contact)"
     >
         <div class="edit-contact-inputs-wrap">
             <a-input type="text" placeholder="Имя" v-model:value="name" />
@@ -41,6 +41,18 @@ export default {
             this.surname = "";
             this.phone = "";
             this.email = "";
+        },
+    },
+
+    computed: {
+        contact() {
+            return {
+                key: this.$store.state.modals.editContact.data.key,
+                name: this.name,
+                surname: this.surname,
+                phone: this.phone,
+                email: this.email,
+            };
         },
     },
 

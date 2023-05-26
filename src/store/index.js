@@ -55,12 +55,11 @@ export default createStore({
         closeEditContact(state) {
             state.modals.editContact.visible = false;
         },
-        editContact(state) {
-            const currentContact = state.modals.editContact.data;
-            const contactEl = state.contacts.find((el) => (el.key = currentContact));
+        editContact(state, contact) {
+            const contactEl = state.contacts.find((el) => el.key === contact.key);
             const index = state.contacts.indexOf(contactEl);
-            for (let key in currentContact) {
-                state.contacts[index][key] = currentContact[key];
+            for (let key in contact) {
+                state.contacts[index][key] = contact[key];
             }
             state.modals.editContact.visible = false;
             state.modals.editContact.data = {};
