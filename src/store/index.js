@@ -49,8 +49,8 @@ export default createStore({
         },
 
         openEditContact(state, contact) {
-            state.modals.editContact.visible = true;
             state.modals.editContact.data = contact;
+            state.modals.editContact.visible = true;
         },
         closeEditContact(state) {
             state.modals.editContact.visible = false;
