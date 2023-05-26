@@ -4,7 +4,7 @@
         style="width: 355px"
         title="Редактировать контакт"
         @cancel="$store.commit('closeEditContact')"
-        @ok="editContact"
+        @ok="this.$store.commit('editContact')"
     >
         <div class="add-contact-inputs-wrap">
             <a-input type="text" placeholder="Имя" v-model:value="$store.state.modals.editContact.data.name" />
@@ -18,23 +18,6 @@
 <script>
 export default {
     name: "edit-contact",
-    data() {
-        return {
-            contact: {
-                name: "",
-                surname: "",
-                phone: "",
-                email: "",
-            },
-        };
-    },
-
-    methods: {
-        editContact() {
-            console.log(this.contact);
-            this.$store.commit("editContact", this.contact);
-        },
-    },
 };
 </script>
 
