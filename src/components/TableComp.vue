@@ -9,7 +9,7 @@
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'action'">
                     <span class="table-icons-wrap">
-                        <a-button @click="$store.commit('openEditContact')">
+                        <a-button @click="$store.commit('openEditContact', record)">
                             <template #icon>
                                 <edit-outlined />
                             </template>

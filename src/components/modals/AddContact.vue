@@ -3,7 +3,7 @@
         v-model:visible="$store.state.modals.addContact.visible"
         style="width: 355px"
         title="Добавить контакт"
-        @cancel="$store.commit('closeAddContact')"
+        @cancel="closeForm"
         @ok="addContact"
     >
         <div class="add-contact-inputs-wrap">
@@ -46,6 +46,11 @@ export default {
             this.clearForm();
         },
 
+        closeForm() {
+            this.clearForm();
+            this.$store.commit("closeAddContact");
+        },
+
         clearForm() {
             this.contact = {
                 name: "",
@@ -53,6 +58,7 @@ export default {
                 phone: "",
                 email: "",
             };
+            this.error = false;
         },
     },
 };
