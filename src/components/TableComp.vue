@@ -8,7 +8,19 @@
         <a-table :columns="columns" :data-source="filteredContacts" :pagination="false">
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'action'">
-                    <a>Редактировать {{ record.name }}</a>
+                    <span class="table-icons-wrap">
+                        <a-button @click="$store.commit('openEditContact')">
+                            <template #icon>
+                                <edit-outlined />
+                            </template>
+                        </a-button>
+
+                        <a-button danger @click="$store.commit('deleteContact', record.key)">
+                            <template #icon>
+                                <delete-outlined />
+                            </template>
+                        </a-button>
+                    </span>
                 </template>
             </template>
         </a-table>
@@ -16,8 +28,11 @@
 </template>
 
 <script>
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons-vue";
+
 export default {
     name: "table-comp",
+    components: { EditOutlined, DeleteOutlined },
     data() {
         return {
             columns: [
@@ -83,5 +98,10 @@ export default {
 .table-search-row {
     display: flex;
     gap: 10px;
+}
+
+.table-icons-wrap {
+    display: flex;
+    gap: 5px;
 }
 </style>

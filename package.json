@@ -10,6 +10,7 @@
     "@ant-design/icons-vue": "^6.1.0",
     "ant-design-vue": "^3.2.20",
     "core-js": "^3.8.3",
+    "uuid": "^9.0.0",
     "vue": "^3.2.13",
     "vuex": "^4.0.0"
   },

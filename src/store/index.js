@@ -27,6 +27,10 @@ export default createStore({
         ],
         modals: {
             addContact: { visible: false },
+            editContact: {
+                visible: false,
+                data: { key: "", name: "", surname: "", phone: "", email: "" },
+            },
         },
     },
     getters: {},
@@ -37,8 +41,21 @@ export default createStore({
         closeAddContact(state) {
             state.modals.addContact.visible = false;
         },
-        addContact(state, payload) {
-            state.contacts.push(payload);
+        addContact(state, contact) {
+            state.contacts.push(contact);
+        },
+        deleteContact(state, key) {
+            state.contacts = state.contacts.filter((el) => el.key !== key);
+        },
+
+        openEditContact(state) {
+            state.modals.editContact.visible = true;
+        },
+        closeEditContact(state) {
+            state.modals.editContact.visible = false;
+        },
+        setEditContactData(state, payload) {
+            state.modals.editContact.data = payload;
         },
     },
     actions: {},
