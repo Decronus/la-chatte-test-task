@@ -82,11 +82,11 @@ export default {
             const contacts = this.$store.state.contacts;
             let csvContent = "data:text/csv;charset=utf-8,";
 
-            const headers = Object.keys(contacts[0]);
+            const headers = ["key", "name", "surname", "phone", "email"];
             csvContent += headers.join(",") + "\n";
 
             contacts.forEach((contact) => {
-                const values = Object.values(contact);
+                const values = headers.map((header) => contact[header]);
                 csvContent += values.join(",") + "\n";
             });
 
@@ -103,12 +103,13 @@ export default {
         importCSV(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
-            const contacts = [];
-            reader.onload = function (event) {
-                const contents = event.target.result;
-                const lines = contents.split("\n");
-                const headers = lines[0].split(",");
 
+            reader.onload = (event) => {
+                const content = event.target.result;
+                const lines = content.split("\n");
+                lines.splice(lines.length - 1);
+                const headers = lines[0].split(",");
+                const contacts = [];
                 for (let i = 1; i < lines.length; i++) {
                     const obj = {};
                     const currentLine = lines[i].split(",");
@@ -119,9 +120,8 @@ export default {
 
                     contacts.push(obj);
                 }
-                console.log("contacts", contacts);
+                this.$store.commit("loadCSV", contacts);
             };
-            this.$store.commit("loadCSV", contacts);
 
             reader.readAsText(file);
         },
