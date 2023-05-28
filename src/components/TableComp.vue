@@ -57,7 +57,7 @@ export default {
                     dataIndex: "email",
                 },
                 {
-                    title: "Действия",
+                    title: "",
                     key: "action",
                 },
             ],
