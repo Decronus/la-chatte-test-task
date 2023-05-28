@@ -16,7 +16,8 @@
                 @change="(event) => (phone = event.target.value.replace(/\D/g, ''))"
             />
             <a-input type="text" placeholder="Email" v-model:value="email" />
-            <span v-if="error" class="edit-contact-error">Заполните все поля</span>
+            <span v-if="fillInputsError" class="add-contact-error">Заполните все поля</span>
+            <span v-if="emailError" class="add-contact-error">Введите правильный email</span>
         </div>
     </a-modal>
 </template>
@@ -30,16 +31,13 @@ export default {
             surname: "",
             phone: "",
             email: "",
-            error: false,
         };
     },
 
     methods: {
         editContact() {
-            if (Object.values(this.contact).includes("")) {
-                this.error = true;
-                return;
-            }
+            if (this.fillInputsError) return;
+            if (this.emailError) return;
             this.$store.commit("editContact", this.contact);
         },
 
@@ -55,7 +53,6 @@ export default {
             this.surname = "";
             this.phone = "";
             this.email = "";
-            this.error = false;
         },
     },
 
@@ -68,6 +65,15 @@ export default {
                 phone: this.phone,
                 email: this.email,
             };
+        },
+
+        fillInputsError() {
+            return Object.values(this.contact).includes("");
+        },
+
+        emailError() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return !emailRegex.test(this.email);
         },
     },
 
