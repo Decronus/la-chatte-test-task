@@ -9,7 +9,12 @@
         <div class="edit-contact-inputs-wrap">
             <a-input type="text" placeholder="Имя" v-model:value="name" />
             <a-input type="text" placeholder="Фамилия" v-model:value="surname" />
-            <a-input type="text" placeholder="Телефон" v-model:value="phone" />
+            <a-input
+                type="text"
+                placeholder="Телефон"
+                :value="phone"
+                @change="(event) => (phone = event.target.value.replace(/\D/g, ''))"
+            />
             <a-input type="text" placeholder="Email" v-model:value="email" />
             <span v-if="error" class="edit-contact-error">Заполните все поля</span>
         </div>

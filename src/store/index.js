@@ -4,24 +4,24 @@ export default createStore({
     state: {
         contacts: [
             {
-                key: "1-adsf-213sfd-124sfd",
+                key: "1",
                 name: "John",
                 surname: "Brown",
-                phone: "+7 999 100 00 41",
+                phone: "79991000041",
                 email: "johnbrown@mail.ru",
             },
             {
                 key: "2",
                 name: "Jim",
                 surname: "Green",
-                phone: "+7 912 121 55 06",
+                phone: "79121215506",
                 email: "jimgreen@mail.ru",
             },
             {
                 key: "3",
                 name: "Joe",
                 surname: "Black",
-                phone: "+7 982 473 15 47",
+                phone: "79824731547",
                 email: "joeblack@mail.ru",
             },
         ],

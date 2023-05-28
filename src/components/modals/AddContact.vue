@@ -9,9 +9,15 @@
         <div class="add-contact-inputs-wrap">
             <a-input type="text" placeholder="Имя" v-model:value="contact.name" />
             <a-input type="text" placeholder="Фамилия" v-model:value="contact.surname" />
-            <a-input type="text" placeholder="Телефон" v-model:value="contact.phone" />
+            <a-input
+                type="text"
+                placeholder="Телефон"
+                :value="contact.phone"
+                @change="(event) => (contact.phone = event.target.value.replace(/\D/g, ''))"
+            />
             <a-input type="text" placeholder="Email" v-model:value="contact.email" />
-            <span v-if="error" class="add-contact-error">Заполните все поля</span>
+            <span v-if="fillInputsError" class="add-contact-error">Заполните все поля</span>
+            <span v-if="emailError" class="add-contact-error">Введите правильный email</span>
         </div>
     </a-modal>
 </template>
@@ -23,26 +29,28 @@ export default {
     name: "add-contact",
     data() {
         return {
+            isInit: true,
             contact: {
                 name: "",
                 surname: "",
                 phone: "",
                 email: "",
             },
-            error: false,
         };
     },
 
     methods: {
         addContact() {
-            if (Object.values(this.contact).includes("")) {
-                this.error = true;
-                return;
-            }
+            this.isInit = false;
+            if (this.fillInputsError) return;
+            if (this.emailError) return;
+
             const contact = this.contact;
             contact.key = uuidv4();
             this.$store.commit("addContact", contact);
+
             this.$store.commit("closeAddContact");
+            this.isInit = true;
             this.clearForm();
         },
 
@@ -58,7 +66,21 @@ export default {
                 phone: "",
                 email: "",
             };
-            this.error = false;
+        },
+    },
+
+    computed: {
+        fillInputsError() {
+            if (!this.isInit) {
+                return Object.values(this.contact).includes("");
+            }
+        },
+
+        emailError() {
+            if (!this.isInit) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return !emailRegex.test(this.contact.email);
+            }
         },
     },
 };
