@@ -1,19 +1,20 @@
-# la-chatte-test-task
+# Тестовое задание на должность "Разработчик фронтэнда (Vue.js)"
 
-## Project setup
-```
-npm install
-```
+## Использованные технологии
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Vue.js, Vuex, Javascript, Antdesign, uuid
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Ссылка на проект
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+http://ce76488-wordpress-tw2er.tw1.ru
+
+## Инструкция по запуску проекта
+
+1. Склонировать проект из репозитория на компьютер командой в консоли git clone.
+2. Перейти в папку с проектом и установить все зависимости командой "npm i".
+3. Запустить проект командой "vue serve".
+
+### Контакты для связи по всем вопросам
+
+• al.zotin@mail.ru\
+• Telegram A_Zotin
