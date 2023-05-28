@@ -4,7 +4,7 @@ export default createStore({
     state: {
         contacts: [
             {
-                key: "1",
+                key: "1-adsf-213sfd-124sfd",
                 name: "John",
                 surname: "Brown",
                 phone: "+7 999 100 00 41",
@@ -43,6 +43,9 @@ export default createStore({
         },
         addContact(state, contact) {
             state.contacts.push(contact);
+        },
+        loadCSV(state, contacts) {
+            state.contacts = contacts;
         },
         deleteContact(state, key) {
             state.contacts = state.contacts.filter((el) => el.key !== key);

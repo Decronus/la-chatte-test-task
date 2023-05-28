@@ -2,7 +2,7 @@
     <div class="table-wrap">
         <div class="table-search-row">
             <a-input-search placeholder="Поиск контакта" @search="setSearchQuery" />
-            <a-button type="primary" @click="$store.commit('openAddContact')">Добавить контакт</a-button>
+            <a-button @click="$store.commit('openAddContact')">Добавить контакт</a-button>
         </div>
 
         <a-table :columns="columns" :data-source="filteredContacts" :pagination="false">
@@ -24,6 +24,14 @@
                 </template>
             </template>
         </a-table>
+
+        <div>
+            <div class="table-buttons-row">
+                <input type="file" accept=".csv" ref="fileInputRef" style="display: none" @change="importCSV" />
+                <a-button @click="$refs.fileInputRef.click()">Импорт в CSV</a-button>
+                <a-button type="primary" @click="exportToCsv">Экспорт в CSV</a-button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -69,6 +77,54 @@ export default {
         setSearchQuery(value) {
             this.searchQuery = value;
         },
+
+        exportToCsv() {
+            const contacts = this.$store.state.contacts;
+            let csvContent = "data:text/csv;charset=utf-8,";
+
+            const headers = Object.keys(contacts[0]);
+            csvContent += headers.join(",") + "\n";
+
+            contacts.forEach((contact) => {
+                const values = Object.values(contact);
+                csvContent += values.join(",") + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "contacts.csv");
+
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        },
+
+        importCSV(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            const contacts = [];
+            reader.onload = function (event) {
+                const contents = event.target.result;
+                const lines = contents.split("\n");
+                const headers = lines[0].split(",");
+
+                for (let i = 1; i < lines.length; i++) {
+                    const obj = {};
+                    const currentLine = lines[i].split(",");
+
+                    for (let j = 0; j < headers.length; j++) {
+                        obj[headers[j]] = currentLine[j];
+                    }
+
+                    contacts.push(obj);
+                }
+                console.log("contacts", contacts);
+            };
+            this.$store.commit("loadCSV", contacts);
+
+            reader.readAsText(file);
+        },
     },
 
     computed: {
@@ -103,5 +159,11 @@ export default {
 .table-icons-wrap {
     display: flex;
     gap: 5px;
+}
+
+.table-buttons-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 </style>
