@@ -48,6 +48,7 @@ export default {
             const contact = this.contact;
             contact.key = uuidv4();
             this.$store.commit("addContact", contact);
+            this.$store.commit("saveContactsToStorage");
 
             this.$store.commit("closeAddContact");
             this.isInit = true;

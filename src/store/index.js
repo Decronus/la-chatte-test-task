@@ -44,7 +44,10 @@ export default createStore({
         addContact(state, contact) {
             state.contacts.push(contact);
         },
-        loadCSV(state, contacts) {
+        saveContactsToStorage(state) {
+            localStorage.setItem("contacts", JSON.stringify(state.contacts));
+        },
+        setContacts(state, contacts) {
             state.contacts = contacts;
         },
         deleteContact(state, key) {

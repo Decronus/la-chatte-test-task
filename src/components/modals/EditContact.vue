@@ -27,6 +27,7 @@ export default {
     name: "edit-contact",
     data() {
         return {
+            isInit: false,
             name: "",
             surname: "",
             phone: "",
@@ -36,9 +37,12 @@ export default {
 
     methods: {
         editContact() {
+            this.isInit = false;
             if (this.fillInputsError) return;
             if (this.emailError) return;
+            this.isInit = true;
             this.$store.commit("editContact", this.contact);
+            this.$store.commit("saveContactsToStorage");
         },
 
         initInputs() {
@@ -68,12 +72,16 @@ export default {
         },
 
         fillInputsError() {
-            return Object.values(this.contact).includes("");
+            if (!this.isInit) {
+                return Object.values(this.contact).includes("");
+            }
         },
 
         emailError() {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return !emailRegex.test(this.email);
+            if (!this.isInit) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return !emailRegex.test(this.email);
+            }
         },
     },
 

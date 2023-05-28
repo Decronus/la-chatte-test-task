@@ -15,7 +15,7 @@
                             </template>
                         </a-button>
 
-                        <a-button danger @click="$store.commit('deleteContact', record.key)">
+                        <a-button danger @click="deleteContact(record)">
                             <template #icon>
                                 <delete-outlined />
                             </template>
@@ -78,6 +78,11 @@ export default {
             this.searchQuery = value;
         },
 
+        deleteContact(record) {
+            this.$store.commit("deleteContact", record.key);
+            this.$store.commit("saveContactsToStorage");
+        },
+
         exportToCsv() {
             const contacts = this.$store.state.contacts;
             let csvContent = "data:text/csv;charset=utf-8,";
@@ -120,7 +125,8 @@ export default {
 
                     contacts.push(obj);
                 }
-                this.$store.commit("loadCSV", contacts);
+                this.$store.commit("setContacts", contacts);
+                this.$store.commit("saveContactsToStorage");
             };
 
             reader.readAsText(file);
@@ -140,6 +146,13 @@ export default {
                 });
             }
         },
+    },
+
+    mounted() {
+        const storageContacts = localStorage.getItem("contacts");
+        if (storageContacts) {
+            this.$store.commit("setContacts", JSON.parse(storageContacts));
+        }
     },
 };
 </script>
