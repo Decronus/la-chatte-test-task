@@ -44,9 +44,6 @@ export default createStore({
         addContact(state, contact) {
             state.contacts.push(contact);
         },
-        saveContactsToStorage(state) {
-            localStorage.setItem("contacts", JSON.stringify(state.contacts));
-        },
         setContacts(state, contacts) {
             state.contacts = contacts;
         },
@@ -72,7 +69,7 @@ export default createStore({
         },
     },
     actions: {
-        updateContacts({ commit }, payload) {
+        updateContacts({ state, commit }, payload) {
             switch (payload.type) {
                 case "add":
                     commit("addContact", payload.contact);
@@ -84,7 +81,7 @@ export default createStore({
                     commit("deleteContact", payload.key);
                     break;
             }
-            commit("saveContactsToStorage");
+            localStorage.setItem("contacts", JSON.stringify(state.contacts));
         },
     },
     modules: {},
