@@ -50,7 +50,6 @@ export default createStore({
         deleteContact(state, key) {
             state.contacts = state.contacts.filter((el) => el.key !== key);
         },
-
         openEditContact(state, contact) {
             state.modals.editContact.data = contact;
             state.modals.editContact.visible = true;
@@ -69,7 +68,7 @@ export default createStore({
         },
     },
     actions: {
-        updateContacts({ state, commit }, payload) {
+        updateContacts({ commit, dispatch }, payload) {
             switch (payload.type) {
                 case "add":
                     commit("addContact", payload.contact);
@@ -81,6 +80,13 @@ export default createStore({
                     commit("deleteContact", payload.key);
                     break;
             }
+            dispatch("saveToStorage");
+        },
+        setContacts({ commit, dispatch }, contacts) {
+            commit("setContacts", contacts);
+            dispatch("saveToStorage");
+        },
+        saveToStorage({ state }) {
             localStorage.setItem("contacts", JSON.stringify(state.contacts));
         },
     },

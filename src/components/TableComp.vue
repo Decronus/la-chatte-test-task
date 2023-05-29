@@ -123,8 +123,7 @@ export default {
 
                     contacts.push(obj);
                 }
-                this.$store.commit("setContacts", contacts);
-                this.$store.commit("saveContactsToStorage");
+                this.$store.dispatch("setContacts", contacts);
             };
 
             reader.readAsText(file);
