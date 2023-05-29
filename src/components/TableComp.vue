@@ -15,7 +15,10 @@
                             </template>
                         </a-button>
 
-                        <a-button danger @click="deleteContact(record)">
+                        <a-button
+                            danger
+                            @click="$store.dispatch('updateContacts', { type: 'delete', key: record.key })"
+                        >
                             <template #icon>
                                 <delete-outlined />
                             </template>

@@ -41,8 +41,7 @@ export default {
             if (this.fillInputsError) return;
             if (this.emailError) return;
             this.isInit = true;
-            this.$store.commit("editContact", this.contact);
-            this.$store.commit("saveContactsToStorage");
+            this.$store.dispatch("updateContacts", { type: "edit", contact: this.contact });
         },
 
         initInputs() {

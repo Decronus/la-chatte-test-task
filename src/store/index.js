@@ -71,6 +71,21 @@ export default createStore({
             state.modals.editContact.data = {};
         },
     },
-    actions: {},
+    actions: {
+        updateContacts({ commit }, payload) {
+            switch (payload.type) {
+                case "add":
+                    commit("addContact", payload.contact);
+                    break;
+                case "edit":
+                    commit("editContact", payload.contact);
+                    break;
+                case "delete":
+                    commit("deleteContact", payload.key);
+                    break;
+            }
+            commit("saveContactsToStorage");
+        },
+    },
     modules: {},
 });
