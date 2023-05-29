@@ -81,11 +81,6 @@ export default {
             this.searchQuery = value;
         },
 
-        deleteContact(record) {
-            this.$store.commit("deleteContact", record.key);
-            this.$store.commit("saveContactsToStorage");
-        },
-
         exportToCsv() {
             const contacts = this.$store.state.contacts;
             let csvContent = "data:text/csv;charset=utf-8,";
